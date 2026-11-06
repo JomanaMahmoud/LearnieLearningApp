@@ -1,0 +1,10 @@
+{
+  "description": "A playful learning app for children in Grades 1–5 that turns exam mistakes into personalized practice, clear explanations, and progress they can celebrate.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
