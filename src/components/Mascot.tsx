@@ -1,76 +1,35 @@
-import { useEffect, useMemo, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { EyeOff, Lightbulb, Volume2, VolumeX, X } from 'lucide-react'
 import { useStore } from '../store'
 import type { TKey } from '../i18n'
 import { cx } from './ui'
+import { PenguinArt } from './mascot/PenguinArt'
+import { resolvePose, type MascotMood } from './mascot/moods'
 
-type Mood = 'happy' | 'cheer' | 'think'
+export type Mood = MascotMood
 
-/** Pip, Learnie's owl helper. Pure SVG so it scales crisply and animates with CSS. */
-export function Mascot({ size = 120, mood = 'happy', className }: { size?: number; mood?: Mood; className?: string }) {
-  const cheer = mood === 'cheer'
-  return (
-    <svg viewBox="0 0 160 170" width={size} height={size * (170 / 160)} className={cx('animate-bob overflow-visible', className)} aria-hidden="true">
-      {/* shadow */}
-      <ellipse cx="80" cy="162" rx="42" ry="6" fill="rgba(36,48,77,0.12)" />
-      {/* wings */}
-      <g style={{ transformOrigin: '34px 96px' }} className={cheer ? 'animate-wave' : ''}>
-        <path d={cheer ? 'M38 92 C14 70 8 52 16 44 C30 56 40 72 46 88 Z' : 'M36 84 C18 98 18 124 34 134 C40 118 44 100 44 88 Z'} fill="#3a6fd6" />
-      </g>
-      <g style={{ transformOrigin: '126px 96px', animationDelay: '0.3s' }} className={cheer ? 'animate-wave' : ''}>
-        <path d={cheer ? 'M122 92 C146 70 152 52 144 44 C130 56 120 72 114 88 Z' : 'M124 84 C142 98 142 124 126 134 C120 118 116 100 116 88 Z'} fill="#3a6fd6" />
-      </g>
-      {/* body */}
-      <path d="M80 26 C122 26 132 62 132 98 C132 136 110 154 80 154 C50 154 28 136 28 98 C28 62 38 26 80 26 Z" fill="#6fa3ff" />
-      {/* ear tufts */}
-      <path d="M46 40 L40 14 L64 32 Z" fill="#4c86f0" />
-      <path d="M114 40 L120 14 L96 32 Z" fill="#4c86f0" />
-      {/* leaf */}
-      <path d="M80 26 C78 14 86 6 96 6 C96 18 88 24 80 26 Z" fill="#4fcf9f" />
-      {/* belly */}
-      <ellipse cx="80" cy="116" rx="32" ry="32" fill="#fff8ee" />
-      <path d="M66 108 q4 4 8 0 M86 108 q4 4 8 0 M74 122 q4 4 8 0" stroke="#ffc83d" strokeWidth="3" fill="none" strokeLinecap="round" />
-      {/* eyes */}
-      <circle cx="60" cy="72" r="20" fill="#fff" />
-      <circle cx="100" cy="72" r="20" fill="#fff" />
-      <g className="animate-blink" style={{ transformOrigin: '80px 72px' }}>
-        {mood === 'think' ? (
-          <>
-            <circle cx="64" cy="66" r="9" fill="#24304d" />
-            <circle cx="104" cy="66" r="9" fill="#24304d" />
-            <circle cx="67" cy="63" r="3" fill="#fff" />
-            <circle cx="107" cy="63" r="3" fill="#fff" />
-          </>
-        ) : cheer ? (
-          <>
-            <path d="M50 74 q10 -12 20 0" stroke="#24304d" strokeWidth="5" fill="none" strokeLinecap="round" />
-            <path d="M90 74 q10 -12 20 0" stroke="#24304d" strokeWidth="5" fill="none" strokeLinecap="round" />
-          </>
-        ) : (
-          <>
-            <circle cx="62" cy="74" r="10" fill="#24304d" />
-            <circle cx="98" cy="74" r="10" fill="#24304d" />
-            <circle cx="65" cy="70" r="3.5" fill="#fff" />
-            <circle cx="101" cy="70" r="3.5" fill="#fff" />
-          </>
-        )}
-      </g>
-      {/* cheeks */}
-      <circle cx="44" cy="90" r="6" fill="#ff8470" opacity="0.45" />
-      <circle cx="116" cy="90" r="6" fill="#ff8470" opacity="0.45" />
-      {/* beak */}
-      <path d="M73 88 L87 88 L80 99 Z" fill="#ffc83d" stroke="#f5b10f" strokeWidth="2" strokeLinejoin="round" />
-      {/* feet */}
-      <path d="M64 152 l-6 8 M68 153 l0 9 M72 152 l6 8" stroke="#f5b10f" strokeWidth="4" strokeLinecap="round" />
-      <path d="M88 152 l-6 8 M92 153 l0 9 M96 152 l6 8" stroke="#f5b10f" strokeWidth="4" strokeLinecap="round" />
-      {cheer && (
-        <g fill="#ffc83d">
-          <path d="M14 20 l3 7 7 1 -5 5 1 7 -6 -3 -6 3 1 -7 -5 -5 7 -1 z" />
-          <path d="M140 10 l2 5 5 1 -4 3 1 5 -4 -2 -4 2 1 -5 -4 -3 5 -1 z" />
-        </g>
-      )}
-    </svg>
-  )
+/**
+ * Pip, Learnie's penguin helper (layered SVG, animated with CSS; see ./mascot/).
+ *
+ * The owl's API is unchanged: `mood` still accepts 'happy' (idle), 'cheer' (celebrating) and
+ * 'think' (thinking), and also the new poses 'greeting' and 'encouraging'. Optional extras:
+ * - `replayKey`: change it to restart the burst animations (celebration hops, wave, sparkles).
+ * - `halo`: cream outline on the strap and duck, for placing Pip on a yellow surface.
+ */
+export function Mascot({
+  size = 120,
+  mood = 'happy',
+  className,
+  replayKey,
+  halo,
+}: {
+  size?: number
+  mood?: MascotMood
+  className?: string
+  replayKey?: number
+  halo?: boolean
+}) {
+  return <PenguinArt pose={resolvePose(mood)} size={size} className={cx('animate-bob overflow-visible', className)} replayKey={replayKey} halo={halo} />
 }
 
 const TIP_KEYS: Record<string, TKey[]> = {
@@ -87,11 +46,13 @@ const TIP_KEYS: Record<string, TKey[]> = {
 
 /** Floating help character: per-screen tips, read aloud, mute and hide. */
 export function Helper() {
-  const { route, t, settings, setSetting, speak, celebrateKey, user } = useStore()
+  const { route, t, settings, setSetting, speak, celebrateKey, comfortKey, user } = useStore()
   const tips = useMemo(() => TIP_KEYS[route.name] ?? TIP_KEYS.home, [route.name])
   const [idx, setIdx] = useState(0)
   const [open, setOpen] = useState(true)
   const [cheering, setCheering] = useState(false)
+  const [comforting, setComforting] = useState(false)
+  const cheerEndsAt = useRef(0)
   const [pinned, setPinned] = useState(false)
 
   useEffect(() => {
@@ -102,20 +63,37 @@ export function Helper() {
 
   // Tips close on their own so they never block the page; tapping Pip pins them open.
   useEffect(() => {
-    if (!open || pinned || cheering) return
+    if (!open || pinned || cheering || comforting) return
     const id = window.setTimeout(() => setOpen(false), 9000)
     return () => window.clearTimeout(id)
-  }, [open, pinned, cheering, idx])
+  }, [open, pinned, cheering, comforting, idx])
 
   useEffect(() => {
     if (!celebrateKey) return
+    cheerEndsAt.current = Date.now() + 4000
     setCheering(true)
     setOpen(true)
     const id = window.setTimeout(() => setCheering(false), 4000)
     return () => window.clearTimeout(id)
   }, [celebrateKey])
 
-  const text = cheering ? t('tip.cheer') : t(tips[idx % tips.length], { name: user?.name ?? '' })
+  // A quiz finished below 60%: one gentle, encouraging moment. It fires once per finished quiz (never on
+  // navigation) and waits for any celebration to finish first, so it never talks over the confetti.
+  useEffect(() => {
+    if (!comfortKey) return
+    const wait = Math.max(0, cheerEndsAt.current - Date.now())
+    const start = window.setTimeout(() => {
+      setComforting(true)
+      setOpen(true)
+    }, wait)
+    const stop = window.setTimeout(() => setComforting(false), wait + 7000)
+    return () => {
+      window.clearTimeout(start)
+      window.clearTimeout(stop)
+    }
+  }, [comfortKey])
+
+  const text = cheering ? t('tip.cheer') : comforting ? t('tip.comfort') : t(tips[idx % tips.length], { name: user?.name ?? '' })
 
   if (settings.helperHidden) {
     return (
@@ -138,7 +116,7 @@ export function Helper() {
           <p className="mb-1 font-display text-sm font-semibold text-sky-600">Pip</p>
           <p className="pr-4 text-base font-semibold leading-snug">{text}</p>
           <div className="mt-3 flex items-center gap-1.5">
-            {!cheering && tips.length > 1 && (
+            {!cheering && !comforting && tips.length > 1 && (
               <button
                 onClick={() => {
                   setPinned(true)
@@ -180,7 +158,8 @@ export function Helper() {
         aria-label={t('helper.help')}
         className="pointer-events-auto relative flex flex-col items-center"
       >
-        <Mascot size={84} mood={cheering ? 'cheer' : open ? 'happy' : 'think'} />
+        {/* replayKey: a second celebration while Pip is still cheering restarts the hops instead of being ignored */}
+        <Mascot size={84} mood={cheering ? 'cheer' : comforting ? 'encouraging' : open ? 'happy' : 'think'} replayKey={celebrateKey} />
         {!open && <span className="-mt-2 rounded-full bg-sky-500 px-3 py-1 text-xs font-extrabold text-white shadow">{t('helper.help')}</span>}
       </button>
     </div>
