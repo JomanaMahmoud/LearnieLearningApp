@@ -55,6 +55,8 @@ function useStoreValue() {
   const [reflectionsDone, setReflectionsDone] = useState(0)
   const [practiceDays, setPracticeDays] = useState<string[]>(['2026-10-10', '2026-10-11'])
   const [celebrateKey, setCelebrateKey] = useState(0)
+  // One-shot "kind word" signal, fired once when a quiz is finished below 60% (never on navigation).
+  const [comfortKey, setComfortKey] = useState(0)
   const [toast, setToast] = useState<Toast | null>(null)
   const toastTimer = useRef<number | undefined>(undefined)
 
@@ -99,6 +101,7 @@ function useStoreValue() {
   }, [])
 
   const celebrate = useCallback(() => setCelebrateKey((k) => k + 1), [])
+  const comfort = useCallback(() => setComfortKey((k) => k + 1), [])
 
   const addNote = useCallback((n: Omit<Note, 'id' | 'date' | 'read'>) => {
     setNotes((all) => [{ ...n, id: newId('n'), date: `${TODAY}T${new Date().toTimeString().slice(0, 5)}`, read: false }, ...all])
@@ -142,8 +145,9 @@ function useStoreValue() {
       setPracticeDays((d) => (d.includes(TODAY) ? d : [...d, TODAY]))
       setNotes((all) => all.map((n) => (n.type === 'quiz' && n.target?.name === 'quiz' && n.target.quizId === quizId ? { ...n, read: true } : n)))
       if (attempt.score / attempt.questions.length >= 0.6) celebrate()
+      else comfort()
     },
-    [celebrate],
+    [celebrate, comfort],
   )
 
   const saveReflections = useCallback(
@@ -231,6 +235,7 @@ function useStoreValue() {
     dismissToast: () => setToast(null),
     celebrateKey,
     celebrate,
+    comfortKey,
     sessions,
     updateSession,
     submitSession,

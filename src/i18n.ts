@@ -372,6 +372,7 @@ const dict = {
   'helper.mute': ['Mute Pip', 'Pip stumm'],
   'helper.unmute': ['Let Pip talk', 'Pip darf sprechen'],
   'tip.cheer': ['Hooray! You did it! I am so proud of you!', 'Hurra! Geschafft! Ich bin so stolz auf dich!'],
+  'tip.comfort': ['That’s okay! Mistakes help your brain grow. We can look at them together, then try again.', 'Das ist okay! Fehler helfen deinem Gehirn beim Wachsen. Wir schauen sie zusammen an und versuchen es nochmal.'],
   'tip.home.1': ['Hi {name}, I’m Pip! The “What to do next” card shows your best next step.', 'Hallo {name}, ich bin Pip! Die Karte „Was du als Nächstes tun kannst“ zeigt deinen besten nächsten Schritt.'],
   'tip.home.2': ['The bell at the top shows your new messages.', 'Die Glocke oben zeigt deine neuen Nachrichten.'],
   'tip.home.3': ['Tap the yellow speaker to hear any text read aloud.', 'Tippe auf den gelben Lautsprecher, um Text vorlesen zu lassen.'],

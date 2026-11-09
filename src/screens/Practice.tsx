@@ -490,7 +490,7 @@ function QuizResults({ quiz, attempt, reopened, onRetry, onReflect }: { quiz: Qu
       <Card className="relative overflow-hidden bg-gradient-to-br from-sun-300 to-sun-400 text-center !ring-0">
         <div className="absolute -left-10 -top-10 size-40 rounded-full bg-white/20" />
         <div className="relative flex flex-col items-center">
-          <Mascot size={110} mood={pct >= 60 ? 'cheer' : 'happy'} />
+          <Mascot size={110} mood={pct >= 60 ? 'cheer' : 'encouraging'} halo />
           <Stars n={stars} size="size-12" className="mt-2" />
           <p className="mt-2 font-display text-5xl font-semibold">
             {attempt.score}/{total}
@@ -638,7 +638,7 @@ function Reflection({ quiz, attempt, onBack, onDone }: { quiz: Quiz; attempt: At
         </div>
 
         <div className="mt-4 flex items-center gap-3 rounded-2xl bg-sky-50 p-3">
-          <Mascot size={44} mood="think" className="!animate-none" />
+          <Mascot size={44} mood="encouraging" className="!animate-none" />
           <p className="font-semibold text-sky-700">{helperText}</p>
         </div>
 

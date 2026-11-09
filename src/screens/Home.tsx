@@ -37,8 +37,8 @@ export function Home() {
       {/* Hero */}
       <section className="relative overflow-hidden rounded-[36px] bg-gradient-to-br from-sky-500 to-sky-400 p-6 text-white sm:p-8">
         <div className="absolute -right-10 -top-16 size-64 rounded-full bg-white/10" />
-        <div className="relative grid items-center gap-6 md:grid-cols-[1fr_auto]">
-          <div>
+        <div className="relative grid items-center gap-6 md:grid-cols-[minmax(0,1fr)_auto]">
+          <div className="min-w-0">
             <div className="flex items-center gap-3">
               <h1 className="text-4xl sm:text-5xl">
                 {greet}, {user?.name}!
@@ -47,7 +47,7 @@ export function Home() {
             </div>
             <p className="mt-2 text-xl text-sky-50">{t('home.ready')}</p>
 
-            <div className="mt-6 flex flex-col gap-4 rounded-3xl bg-white p-4 text-ink shadow-xl sm:flex-row sm:items-center sm:p-5">
+            <div className="mt-6 flex flex-col gap-4 rounded-3xl bg-white p-4 text-ink shadow-xl sm:flex-row sm:items-center sm:p-5 md:flex-col md:items-stretch xl:flex-row xl:items-center">
               <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-sun-100 text-sun-700">
                 <Sparkles className="size-7" />
               </span>
