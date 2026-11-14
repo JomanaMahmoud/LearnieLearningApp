@@ -1,5 +1,21 @@
 import { useState } from 'react'
-import { Apple, ArrowLeft, Cat, Delete, Fish, Heart, Moon, Rocket, Star, Sun, TreePine } from 'lucide-react'
+import {
+  Apple,
+  ArrowLeft,
+  BriefcaseBusiness,
+  Cat,
+  Delete,
+  Fish,
+  GraduationCap,
+  Heart,
+  LockKeyhole,
+  Mail,
+  Moon,
+  Rocket,
+  Star,
+  Sun,
+  TreePine,
+} from 'lucide-react'
 import { useStore } from '../store'
 import { Mascot } from '../components/Mascot'
 import { Avatar, Logo } from '../components/Shell'
@@ -21,9 +37,12 @@ const STUDENTS = ['Omar', 'Sara', 'Lina', 'Adam', 'Mia', 'Jonas']
 
 export function Login() {
   const { t, login } = useStore()
+  const [mode, setMode] = useState<'student' | 'teacher'>('student')
   const [student, setStudent] = useState<number | null>(null)
   const [picks, setPicks] = useState<string[]>([])
   const [error, setError] = useState(false)
+  const [teacherEmail, setTeacherEmail] = useState('m.weber@learnie.school')
+  const [teacherPassword, setTeacherPassword] = useState('learnie')
 
   const choose = (id: string) => {
     if (picks.length >= 3) return
@@ -32,7 +51,17 @@ export function Login() {
     setError(false)
     if (next.length === 3) {
       if (next.join() === SECRET.join()) {
-        window.setTimeout(() => login({ name: STUDENTS[student ?? 0], className: '4B', grade: 4, avatar: student ?? 0 }), 350)
+        window.setTimeout(
+          () =>
+            login({
+              name: STUDENTS[student ?? 0],
+              className: '4B',
+              grade: 4,
+              avatar: student ?? 0,
+              role: 'student',
+            }),
+          350,
+        )
       } else {
         window.setTimeout(() => {
           setError(true)
@@ -59,8 +88,8 @@ export function Login() {
         </div>
         <div className="relative mt-auto">
           <Mascot size={220} mood="happy" />
-          <h1 className="mt-6 max-w-md text-5xl leading-tight">{t('login.hero')}</h1>
-          <p className="mt-3 max-w-md text-xl text-sky-50">{t('login.heroSub')}</p>
+          <h1 className="mt-6 max-w-md text-5xl leading-tight">{mode === 'teacher' ? t('login.teacherHero') : t('login.hero')}</h1>
+          <p className="mt-3 max-w-md text-xl text-sky-50">{mode === 'teacher' ? t('login.teacherHeroSub') : t('login.heroSub')}</p>
         </div>
       </div>
 
@@ -75,6 +104,87 @@ export function Login() {
         </div>
 
         <div className="mx-auto my-auto w-full max-w-xl py-10">
+          <div className="mb-8 grid grid-cols-2 rounded-2xl bg-cloud p-1.5" role="tablist" aria-label="Choose account type">
+            <button
+              role="tab"
+              aria-selected={mode === 'student'}
+              onClick={() => setMode('student')}
+              className={cx(
+                'flex min-h-12 items-center justify-center gap-2 rounded-xl font-display font-semibold transition',
+                mode === 'student' ? 'bg-white text-sky-700 shadow-sm' : 'text-ink-soft hover:text-ink',
+              )}
+            >
+              <GraduationCap className="size-5" /> {t('login.student')}
+            </button>
+            <button
+              role="tab"
+              aria-selected={mode === 'teacher'}
+              onClick={() => setMode('teacher')}
+              className={cx(
+                'flex min-h-12 items-center justify-center gap-2 rounded-xl font-display font-semibold transition',
+                mode === 'teacher' ? 'bg-white text-sky-700 shadow-sm' : 'text-ink-soft hover:text-ink',
+              )}
+            >
+              <BriefcaseBusiness className="size-5" /> {t('login.teacher')}
+            </button>
+          </div>
+
+          {mode === 'teacher' ? (
+            <div className="animate-rise">
+              <p className="text-sm font-extrabold uppercase tracking-wide text-sky-600">{t('login.teacherPortal')}</p>
+              <h2 className="mt-1 text-4xl">{t('login.teacherWelcome')}</h2>
+              <p className="mt-2 text-lg text-ink-soft">{t('login.teacherBody')}</p>
+              <form
+                className="mt-7 space-y-4"
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  login({
+                    name: 'Ms. Weber',
+                    className: '4A',
+                    grade: 4,
+                    avatar: 0,
+                    role: 'teacher',
+                    email: teacherEmail,
+                  })
+                }}
+              >
+                <label className="block">
+                  <span className="mb-1.5 block font-bold">{t('login.email')}</span>
+                  <span className="flex min-h-14 items-center gap-3 rounded-2xl bg-white px-4 shadow-soft ring-1 ring-ink/10 focus-within:ring-2 focus-within:ring-sky-400">
+                    <Mail className="size-5 text-ink-soft" />
+                    <input
+                      type="email"
+                      required
+                      value={teacherEmail}
+                      onChange={(e) => setTeacherEmail(e.target.value)}
+                      className="min-w-0 flex-1 bg-transparent outline-none"
+                    />
+                  </span>
+                </label>
+                <label className="block">
+                  <span className="mb-1.5 block font-bold">{t('login.password')}</span>
+                  <span className="flex min-h-14 items-center gap-3 rounded-2xl bg-white px-4 shadow-soft ring-1 ring-ink/10 focus-within:ring-2 focus-within:ring-sky-400">
+                    <LockKeyhole className="size-5 text-ink-soft" />
+                    <input
+                      type="password"
+                      required
+                      value={teacherPassword}
+                      onChange={(e) => setTeacherPassword(e.target.value)}
+                      className="min-w-0 flex-1 bg-transparent outline-none"
+                    />
+                  </span>
+                </label>
+                <button
+                  type="submit"
+                  className="flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl bg-sky-600 px-6 font-display text-lg font-semibold text-white shadow-[0_4px_0_0_var(--color-sky-700)] transition hover:bg-sky-700 active:translate-y-1 active:shadow-none"
+                >
+                  {t('login.teacherSignIn')} <ArrowLeft className="size-5 rotate-180" />
+                </button>
+              </form>
+              <p className="mt-5 rounded-2xl bg-sky-50 p-3 text-center text-sm font-semibold text-sky-700">{t('login.teacherDemo')}</p>
+            </div>
+          ) : (
+            <>
           <div className="mb-2 flex items-center gap-2 text-sm font-extrabold uppercase tracking-wide text-sky-600">
             {t('login.step', { n: step })}
             <span className="flex gap-1">
@@ -162,6 +272,8 @@ export function Login() {
           )}
           {step === 1 && (
             <p className="mt-8 text-center text-ink-soft">{t('login.sharedDevice')}</p>
+          )}
+            </>
           )}
         </div>
       </div>

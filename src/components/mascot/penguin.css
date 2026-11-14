@@ -16,36 +16,69 @@
   overflow: visible;
 
   /* pose variables (defaults = idle) */
-  --hx: 0px; --hy: 0px; --hr: 0deg;      /* head offset / tilt */
-  --wl: 0deg; --wr: 0deg;                /* wing raise (left +, right -) */
-  --lx: 0px; --ly: 0px;                  /* pupil look offset */
-  --mx: 0px; --my: 0px; --msx: 1; --msy: 1; /* mouth */
-  --eo: 1; --ec: 0;                      /* eyes open / closed */
-  --lid: 80px;                           /* lower-lid offset (80px = hidden, 0 = smiling eyes) */
-  --sp: 0;                               /* sparkles */
+  --hx: 0px;
+  --hy: 0px;
+  --hr: 0deg; /* head offset / tilt */
+  --wl: 0deg;
+  --wr: 0deg; /* wing raise (left +, right -) */
+  --lx: 0px;
+  --ly: 0px; /* pupil look offset */
+  --mx: 0px;
+  --my: 0px;
+  --msx: 1;
+  --msy: 1; /* mouth */
+  --eo: 1;
+  --ec: 0; /* eyes open / closed */
+  --lid: 80px; /* lower-lid offset (80px = hidden, 0 = smiling eyes) */
+  --sp: 0; /* sparkles */
   --pose-ease: cubic-bezier(0.34, 1.35, 0.5, 1);
 }
 
 /* ---------- poses ---------- */
-.pip[data-pose='reference'] { --sp: 1; }
-.pip[data-pose='greeting'] {
-  --hr: 3.5deg; --wr: -40deg; --ly: -3px;
-  --msx: 1.14; --msy: 0.96; --sp: 1;
+.pip[data-pose="reference"] {
+  --sp: 1;
 }
-.pip[data-pose='thinking'] {
-  --hr: -6deg; --hx: -5px; --wr: -20deg;
-  --lx: 11px; --ly: -14px;
-  --msx: 0.78; --msy: 0.8; --mx: 12px;
+.pip[data-pose="greeting"] {
+  --hr: 3.5deg;
+  --wr: -40deg;
+  --ly: -3px;
+  --msx: 1.14;
+  --msy: 0.96;
+  --sp: 1;
 }
-.pip[data-pose='celebrating'] {
-  --wl: 58deg; --wr: -58deg;
-  --eo: 0; --ec: 1;
-  --msx: 1.06; --msy: 1.42; --my: 5px; --sp: 1;
+.pip[data-pose="thinking"] {
+  --hr: -6deg;
+  --hx: -5px;
+  --wr: -20deg;
+  --lx: 11px;
+  --ly: -14px;
+  --msx: 0.78;
+  --msy: 0.8;
+  --mx: 12px;
 }
-.pip[data-pose='encouraging'] {
+.pip[data-pose="celebrating"] {
+  --wl: 58deg;
+  --wr: -58deg;
+  --eo: 0;
+  --ec: 1;
+  --msx: 1.06;
+  --msy: 1.42;
+  --my: 5px;
+  --sp: 1;
+}
+.pip[data-pose="encouraging"] {
   /* warm and reassuring: head tilted to one side, both wings open, steady kind gaze, wider mouth */
-  --hr: 7deg; --hx: 3px; --hy: 3px; --wl: 31deg; --wr: -31deg;
-  --ly: 0px; --msx: 1.12; --msy: 0.98; --my: 1px; --lid: 8px; --sp: 1;
+  --hr: 7deg;
+  --hx: 3px;
+  --hy: 3px;
+  --wl: 31deg;
+  --wr: -31deg;
+  --ly: 0px;
+  --msx: 1.12;
+  --msy: 0.98;
+  --my: 1px;
+  --lid: 8px;
+  --sp: 1;
 }
 
 /* ---------- pose layers ---------- */
@@ -77,13 +110,27 @@
   transform: translate(var(--mx), var(--my)) scale(var(--msx), var(--msy));
   transition: transform 0.4s ease-out;
 }
-.pip-eyes-open { opacity: var(--eo); transition: opacity 0.18s linear; }
-.pip-lid { transform: translateY(var(--lid)); transition: transform 0.5s ease-out; }
-.pip-eyes-closed { opacity: var(--ec); transition: opacity 0.18s linear; }
-.pip-sparkles { opacity: var(--sp); transition: opacity 0.3s linear; }
+.pip-eyes-open {
+  opacity: var(--eo);
+  transition: opacity 0.18s linear;
+}
+.pip-lid {
+  transform: translateY(var(--lid));
+  transition: transform 0.5s ease-out;
+}
+.pip-eyes-closed {
+  opacity: var(--ec);
+  transition: opacity 0.18s linear;
+}
+.pip-sparkles {
+  opacity: var(--sp);
+  transition: opacity 0.3s linear;
+}
 
 /* ---------- ambient loops (all states unless overridden) ---------- */
-.pip-shadow { transform-origin: 385px 773px; }
+.pip-shadow {
+  transform-origin: 385px 773px;
+}
 .pip-breath {
   transform-origin: 390px 770px;
   animation: pip-breath 4s ease-in-out infinite;
@@ -92,10 +139,22 @@
   transform-origin: 390px 392px;
   animation: pip-head-sway 6s ease-in-out infinite;
 }
-.pip-wing-l-loop { transform-origin: 224px 395px; --sway: 1.8; animation: pip-sway 4.2s ease-in-out infinite; }
-.pip-wing-r-loop { transform-origin: 552px 395px; --sway: -1.8; animation: pip-sway 4.2s ease-in-out -1.1s infinite; }
-.pip-foot-l-loop { transform-origin: 265px 722px; }
-.pip-foot-r-loop { transform-origin: 457px 727px; }
+.pip-wing-l-loop {
+  transform-origin: 224px 395px;
+  --sway: 1.8;
+  animation: pip-sway 4.2s ease-in-out infinite;
+}
+.pip-wing-r-loop {
+  transform-origin: 552px 395px;
+  --sway: -1.8;
+  animation: pip-sway 4.2s ease-in-out -1.1s infinite;
+}
+.pip-foot-l-loop {
+  transform-origin: 265px 722px;
+}
+.pip-foot-r-loop {
+  transform-origin: 457px 727px;
+}
 .pip-strap-loop {
   transform-origin: 240px 380px;
   animation: pip-strap-swing 3.2s ease-in-out -0.8s infinite;
@@ -104,141 +163,325 @@
   transform-origin: 452px 545px;
   animation: pip-duck-swing 3.2s ease-in-out -0.5s infinite;
 }
-.pip-blink { animation: pip-blink 5s infinite; }
-.pip-glance { animation: pip-glance 9s ease-in-out infinite; }
-.pip-sparkle { animation: none; }
+.pip-blink {
+  animation: pip-blink 5s infinite;
+}
+.pip-glance {
+  animation: pip-glance 9s ease-in-out infinite;
+}
+.pip-sparkle {
+  animation: none;
+}
 
 @keyframes pip-breath {
-  0%, 100% { transform: scale(1, 1); }
-  50% { transform: scale(1.006, 1.013); }
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.006, 1.013);
+  }
 }
 @keyframes pip-head-sway {
-  0%, 100% { transform: rotate(-0.9deg); }
-  50% { transform: rotate(0.9deg); }
+  0%,
+  100% {
+    transform: rotate(-0.9deg);
+  }
+  50% {
+    transform: rotate(0.9deg);
+  }
 }
 @keyframes pip-sway {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(calc(var(--sway) * 1deg)); }
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(calc(var(--sway) * 1deg));
+  }
 }
 @keyframes pip-strap-swing {
-  0%, 100% { transform: rotate(-1.3deg); }
-  50% { transform: rotate(1.3deg); }
+  0%,
+  100% {
+    transform: rotate(-1.3deg);
+  }
+  50% {
+    transform: rotate(1.3deg);
+  }
 }
 @keyframes pip-duck-swing {
-  0%, 100% { transform: rotate(-2.4deg); }
-  50% { transform: rotate(2.4deg); }
+  0%,
+  100% {
+    transform: rotate(-2.4deg);
+  }
+  50% {
+    transform: rotate(2.4deg);
+  }
 }
 @keyframes pip-blink {
-  0%, 91%, 100% { transform: scaleY(1); }
-  94.5% { transform: scaleY(0.08); }
+  0%,
+  91%,
+  100% {
+    transform: scaleY(1);
+  }
+  94.5% {
+    transform: scaleY(0.08);
+  }
 }
 @keyframes pip-glance {
-  0%, 38%, 100% { transform: translate(0, 0); }
-  44%, 62% { transform: translate(5px, -2px); }
-  70%, 88% { transform: translate(-5px, 1px); }
+  0%,
+  38%,
+  100% {
+    transform: translate(0, 0);
+  }
+  44%,
+  62% {
+    transform: translate(5px, -2px);
+  }
+  70%,
+  88% {
+    transform: translate(-5px, 1px);
+  }
 }
 
 /* ---------- greeting: wave three times, hand stays raised ---------- */
-.pip[data-pose='greeting'] .pip-wing-r-loop {
+.pip[data-pose="greeting"] .pip-wing-r-loop {
   --sway: 0;
   animation: pip-wave 0.85s ease-in-out 0.12s 3;
 }
-.pip[data-pose='greeting'] .pip-sparkle { animation: pip-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards; }
-.pip[data-pose='greeting'] .pip-sparkle-b { animation-delay: 0.12s; }
+.pip[data-pose="greeting"] .pip-sparkle {
+  animation: pip-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+.pip[data-pose="greeting"] .pip-sparkle-b {
+  animation-delay: 0.12s;
+}
 @keyframes pip-wave {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-24deg); }
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-24deg);
+  }
 }
 @keyframes pip-pop {
-  0% { transform: scale(0) rotate(-20deg); }
-  100% { transform: scale(1) rotate(0deg); }
+  0% {
+    transform: scale(0) rotate(-20deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
 }
 
 /* ---------- thinking: slow wing tap, foot tap, steady gaze ---------- */
-.pip[data-pose='thinking'] .pip-glance { animation: none; }
-.pip[data-pose='thinking'] .pip-wing-r-loop {
+.pip[data-pose="thinking"] .pip-glance {
+  animation: none;
+}
+.pip[data-pose="thinking"] .pip-wing-r-loop {
   --sway: 0;
   animation: pip-think-tap 2.2s ease-in-out infinite;
 }
-.pip[data-pose='thinking'] .pip-head-loop { animation: pip-head-ponder 4.4s ease-in-out infinite; }
-.pip[data-pose='thinking'] .pip-foot-r-loop { animation: pip-foot-tap 1.1s ease-in-out infinite; }
+.pip[data-pose="thinking"] .pip-head-loop {
+  animation: pip-head-ponder 4.4s ease-in-out infinite;
+}
+.pip[data-pose="thinking"] .pip-foot-r-loop {
+  animation: pip-foot-tap 1.1s ease-in-out infinite;
+}
 @keyframes pip-think-tap {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-4deg); }
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-4deg);
+  }
 }
 @keyframes pip-head-ponder {
-  0%, 100% { transform: rotate(-1.4deg); }
-  50% { transform: rotate(1.4deg) translateY(-2px); }
+  0%,
+  100% {
+    transform: rotate(-1.4deg);
+  }
+  50% {
+    transform: rotate(1.4deg) translateY(-2px);
+  }
 }
 @keyframes pip-foot-tap {
-  0%, 55%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-7deg); }
+  0%,
+  55%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-7deg);
+  }
 }
 
 /* ---------- celebrating: three hops, then a sustained flap ---------- */
-.pip[data-pose='celebrating'] .pip-hop { animation: pip-hop 0.72s linear 3; }
-.pip[data-pose='celebrating'] .pip-shadow { animation: pip-shadow-hop 0.72s ease-in-out 3; }
-.pip[data-pose='celebrating'] .pip-breath {
-  animation: pip-land 0.72s ease-in-out 3, pip-breath 4s ease-in-out 2.16s infinite;
+.pip[data-pose="celebrating"] .pip-hop {
+  animation: pip-hop 0.72s linear 3;
 }
-.pip[data-pose='celebrating'] .pip-head-loop { animation: pip-head-cheer 0.72s ease-in-out 3, pip-head-sway 6s ease-in-out 2.16s infinite; }
-.pip[data-pose='celebrating'] .pip-wing-l-loop { --sway: 0; animation: pip-flap 0.5s ease-in-out infinite alternate; }
-.pip[data-pose='celebrating'] .pip-wing-r-loop { --sway: 0; animation: pip-flap 0.5s ease-in-out -0.38s infinite alternate; }
-.pip[data-pose='celebrating'] .pip-foot-l-loop { animation: pip-foot-hop-l 0.72s ease-in-out 3; }
-.pip[data-pose='celebrating'] .pip-foot-r-loop { animation: pip-foot-hop-r 0.72s ease-in-out 3; }
-.pip[data-pose='celebrating'] .pip-strap-loop { animation: pip-strap-cheer 0.72s ease-in-out 3, pip-strap-swing 3.2s ease-in-out 2.16s infinite; }
-.pip[data-pose='celebrating'] .pip-duck-loop { animation: pip-duck-lag 0.72s ease-in-out 3, pip-duck-swing 3.2s ease-in-out 2.16s infinite; }
-.pip[data-pose='celebrating'] .pip-sparkle { animation: pip-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) backwards, pip-pulse 1.1s ease-in-out 0.45s infinite alternate; }
-.pip[data-pose='celebrating'] .pip-sparkle-b { animation-delay: 0.1s, 0.55s; }
+.pip[data-pose="celebrating"] .pip-shadow {
+  animation: pip-shadow-hop 0.72s ease-in-out 3;
+}
+.pip[data-pose="celebrating"] .pip-breath {
+  animation:
+    pip-land 0.72s ease-in-out 3,
+    pip-breath 4s ease-in-out 2.16s infinite;
+}
+.pip[data-pose="celebrating"] .pip-head-loop {
+  animation:
+    pip-head-cheer 0.72s ease-in-out 3,
+    pip-head-sway 6s ease-in-out 2.16s infinite;
+}
+.pip[data-pose="celebrating"] .pip-wing-l-loop {
+  --sway: 0;
+  animation: pip-flap 0.5s ease-in-out infinite alternate;
+}
+.pip[data-pose="celebrating"] .pip-wing-r-loop {
+  --sway: 0;
+  animation: pip-flap 0.5s ease-in-out -0.38s infinite alternate;
+}
+.pip[data-pose="celebrating"] .pip-foot-l-loop {
+  animation: pip-foot-hop-l 0.72s ease-in-out 3;
+}
+.pip[data-pose="celebrating"] .pip-foot-r-loop {
+  animation: pip-foot-hop-r 0.72s ease-in-out 3;
+}
+.pip[data-pose="celebrating"] .pip-strap-loop {
+  animation:
+    pip-strap-cheer 0.72s ease-in-out 3,
+    pip-strap-swing 3.2s ease-in-out 2.16s infinite;
+}
+.pip[data-pose="celebrating"] .pip-duck-loop {
+  animation:
+    pip-duck-lag 0.72s ease-in-out 3,
+    pip-duck-swing 3.2s ease-in-out 2.16s infinite;
+}
+.pip[data-pose="celebrating"] .pip-sparkle {
+  animation:
+    pip-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) backwards,
+    pip-pulse 1.1s ease-in-out 0.45s infinite alternate;
+}
+.pip[data-pose="celebrating"] .pip-sparkle-b {
+  animation-delay: 0.1s, 0.55s;
+}
 
 @keyframes pip-hop {
-  0% { transform: translateY(0); animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1); }
-  45% { transform: translateY(-46px); animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4); }
-  100% { transform: translateY(0); }
+  0% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1);
+  }
+  45% {
+    transform: translateY(-46px);
+    animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 @keyframes pip-shadow-hop {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  45% { transform: scale(0.82); opacity: 0.55; }
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  45% {
+    transform: scale(0.82);
+    opacity: 0.55;
+  }
 }
 @keyframes pip-land {
-  0% { transform: scale(1.035, 0.95); }
-  20% { transform: scale(0.985, 1.03); }
-  45% { transform: scale(0.98, 1.035); }
-  85% { transform: scale(1, 1); }
-  92% { transform: scale(1.03, 0.955); }
-  100% { transform: scale(1.035, 0.95); }
+  0% {
+    transform: scale(1.035, 0.95);
+  }
+  20% {
+    transform: scale(0.985, 1.03);
+  }
+  45% {
+    transform: scale(0.98, 1.035);
+  }
+  85% {
+    transform: scale(1, 1);
+  }
+  92% {
+    transform: scale(1.03, 0.955);
+  }
+  100% {
+    transform: scale(1.035, 0.95);
+  }
 }
 @keyframes pip-head-cheer {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  30% { transform: translateY(6px) rotate(-2deg); }
-  55% { transform: translateY(-3px) rotate(2deg); }
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  30% {
+    transform: translateY(6px) rotate(-2deg);
+  }
+  55% {
+    transform: translateY(-3px) rotate(2deg);
+  }
 }
 @keyframes pip-flap {
-  0% { transform: rotate(-14deg); }
-  100% { transform: rotate(14deg); }
+  0% {
+    transform: rotate(-14deg);
+  }
+  100% {
+    transform: rotate(14deg);
+  }
 }
 @keyframes pip-foot-hop-l {
-  0%, 100% { transform: rotate(0deg); }
-  45% { transform: rotate(-9deg); }
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  45% {
+    transform: rotate(-9deg);
+  }
 }
 @keyframes pip-foot-hop-r {
-  0%, 100% { transform: rotate(0deg); }
-  45% { transform: rotate(9deg); }
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  45% {
+    transform: rotate(9deg);
+  }
 }
 @keyframes pip-strap-cheer {
-  0%, 100% { transform: rotate(0deg); }
-  30% { transform: rotate(-4deg); }
-  60% { transform: rotate(3deg); }
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  30% {
+    transform: rotate(-4deg);
+  }
+  60% {
+    transform: rotate(3deg);
+  }
 }
 @keyframes pip-duck-lag {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  25% { transform: translateY(9px) rotate(4deg); }
-  55% { transform: translateY(-5px) rotate(-4deg); }
-  80% { transform: translateY(2px) rotate(1deg); }
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(9px) rotate(4deg);
+  }
+  55% {
+    transform: translateY(-5px) rotate(-4deg);
+  }
+  80% {
+    transform: translateY(2px) rotate(1deg);
+  }
 }
 @keyframes pip-pulse {
-  0% { transform: scale(1) rotate(0deg); }
-  100% { transform: scale(1.13) rotate(4deg); }
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  100% {
+    transform: scale(1.13) rotate(4deg);
+  }
 }
 
 /*
@@ -248,83 +491,205 @@
  * duck following a beat later. Nothing hops, flaps or pumps, so it never reads as
  * celebration; the head stays tilted and the mouth stays warm, so it never reads as sad.
  */
-.pip[data-pose='encouraging'] .pip-glance { animation: none; }
-.pip[data-pose='encouraging'] .pip-breath { animation: pip-comfort-body 3.2s ease-in-out infinite; }
-.pip[data-pose='encouraging'] .pip-head-loop { animation: pip-comfort-nod 3.2s ease-in-out infinite; }
-.pip[data-pose='encouraging'] .pip-wing-l-loop { --dir: 1; animation: pip-comfort-open 3.2s ease-in-out 0.04s infinite; }
-.pip[data-pose='encouraging'] .pip-wing-r-loop { --dir: -1; animation: pip-comfort-open 3.2s ease-in-out 0.12s infinite; }
-.pip[data-pose='encouraging'] .pip-foot-l-loop { animation: pip-comfort-foot 3.2s ease-in-out infinite; }
-.pip[data-pose='encouraging'] .pip-foot-r-loop { animation: pip-comfort-foot 3.2s ease-in-out 0.08s infinite reverse; }
-.pip[data-pose='encouraging'] .pip-strap-loop { animation: pip-comfort-strap 3.2s ease-in-out 0.08s infinite; }
-.pip[data-pose='encouraging'] .pip-duck-loop { animation: pip-comfort-duck 3.2s ease-in-out 0.16s infinite; }
+.pip[data-pose="encouraging"] .pip-glance {
+  animation: none;
+}
+.pip[data-pose="encouraging"] .pip-breath {
+  animation: pip-comfort-body 3.2s ease-in-out infinite;
+}
+.pip[data-pose="encouraging"] .pip-head-loop {
+  animation: pip-comfort-nod 3.2s ease-in-out infinite;
+}
+.pip[data-pose="encouraging"] .pip-wing-l-loop {
+  --dir: 1;
+  animation: pip-comfort-open 3.2s ease-in-out 0.04s infinite;
+}
+.pip[data-pose="encouraging"] .pip-wing-r-loop {
+  --dir: -1;
+  animation: pip-comfort-open 3.2s ease-in-out 0.12s infinite;
+}
+.pip[data-pose="encouraging"] .pip-foot-l-loop {
+  animation: pip-comfort-foot 3.2s ease-in-out infinite;
+}
+.pip[data-pose="encouraging"] .pip-foot-r-loop {
+  animation: pip-comfort-foot 3.2s ease-in-out 0.08s infinite reverse;
+}
+.pip[data-pose="encouraging"] .pip-strap-loop {
+  animation: pip-comfort-strap 3.2s ease-in-out 0.08s infinite;
+}
+.pip[data-pose="encouraging"] .pip-duck-loop {
+  animation: pip-comfort-duck 3.2s ease-in-out 0.16s infinite;
+}
 /* smiling lower lids (--lid in the pose) and a slow blink right after the second nod */
-.pip[data-pose='encouraging'] .pip-blink { animation: pip-comfort-blink 6.4s ease-in-out infinite; }
+.pip[data-pose="encouraging"] .pip-blink {
+  animation: pip-comfort-blink 6.4s ease-in-out infinite;
+}
 /* the sparkle pair is one small, quiet burst: smaller, softer, no pop */
-.pip[data-pose='encouraging'] .pip-sparkle { transform: scale(0.72); opacity: 0.85; }
-.pip[data-pose='encouraging'] .pip-sparkle-a { animation: pip-comfort-glint-in 0.9s ease-out 0.5s backwards, pip-comfort-glint 3.2s ease-in-out 1.4s infinite alternate; }
-.pip[data-pose='encouraging'] .pip-sparkle-b { animation: pip-comfort-glint-in 0.9s ease-out 0.7s backwards, pip-comfort-glint 3.2s ease-in-out 1.6s infinite alternate; }
+.pip[data-pose="encouraging"] .pip-sparkle {
+  transform: scale(0.72);
+  opacity: 0.85;
+}
+.pip[data-pose="encouraging"] .pip-sparkle-a {
+  animation:
+    pip-comfort-glint-in 0.9s ease-out 0.5s backwards,
+    pip-comfort-glint 3.2s ease-in-out 1.4s infinite alternate;
+}
+.pip[data-pose="encouraging"] .pip-sparkle-b {
+  animation:
+    pip-comfort-glint-in 0.9s ease-out 0.7s backwards,
+    pip-comfort-glint 3.2s ease-in-out 1.6s infinite alternate;
+}
 
 @keyframes pip-comfort-nod {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  18% { transform: translateY(6px) rotate(1.3deg); }
-  34% { transform: translateY(0) rotate(0.2deg); }
-  50% { transform: translateY(5px) rotate(1deg); }
-  70% { transform: translateY(-1px) rotate(-0.9deg); }
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  18% {
+    transform: translateY(6px) rotate(1.3deg);
+  }
+  34% {
+    transform: translateY(0) rotate(0.2deg);
+  }
+  50% {
+    transform: translateY(5px) rotate(1deg);
+  }
+  70% {
+    transform: translateY(-1px) rotate(-0.9deg);
+  }
 }
 @keyframes pip-comfort-body {
-  0%, 100% { transform: rotate(0deg) scale(1, 1); }
-  18% { transform: rotate(0.6deg) scale(1.006, 0.988); }
-  34% { transform: rotate(0.2deg) scale(1, 1.004); }
-  50% { transform: rotate(0.9deg) scale(1.006, 0.988); }
-  75% { transform: rotate(-0.6deg) scale(1, 1.006); }
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1, 1);
+  }
+  18% {
+    transform: rotate(0.6deg) scale(1.006, 0.988);
+  }
+  34% {
+    transform: rotate(0.2deg) scale(1, 1.004);
+  }
+  50% {
+    transform: rotate(0.9deg) scale(1.006, 0.988);
+  }
+  75% {
+    transform: rotate(-0.6deg) scale(1, 1.006);
+  }
 }
 @keyframes pip-comfort-open {
-  0%, 100% { transform: rotate(0deg) scale(1); }
-  18% { transform: rotate(calc(var(--dir) * 6deg)) scale(1.05); }
-  34% { transform: rotate(calc(var(--dir) * 2deg)) scale(1.02); }
-  50% { transform: rotate(calc(var(--dir) * 7deg)) scale(1.06); }
-  72% { transform: rotate(calc(var(--dir) * 1deg)) scale(1.01); }
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+  18% {
+    transform: rotate(calc(var(--dir) * 6deg)) scale(1.05);
+  }
+  34% {
+    transform: rotate(calc(var(--dir) * 2deg)) scale(1.02);
+  }
+  50% {
+    transform: rotate(calc(var(--dir) * 7deg)) scale(1.06);
+  }
+  72% {
+    transform: rotate(calc(var(--dir) * 1deg)) scale(1.01);
+  }
 }
 @keyframes pip-comfort-foot {
-  0%, 100% { transform: rotate(0deg); }
-  18%, 50% { transform: rotate(-1.6deg); }
-  34% { transform: rotate(0deg); }
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  18%,
+  50% {
+    transform: rotate(-1.6deg);
+  }
+  34% {
+    transform: rotate(0deg);
+  }
 }
 @keyframes pip-comfort-strap {
-  0%, 100% { transform: rotate(-0.8deg); }
-  22% { transform: rotate(1.5deg); }
-  54% { transform: rotate(1.2deg); }
-  78% { transform: rotate(-1.2deg); }
+  0%,
+  100% {
+    transform: rotate(-0.8deg);
+  }
+  22% {
+    transform: rotate(1.5deg);
+  }
+  54% {
+    transform: rotate(1.2deg);
+  }
+  78% {
+    transform: rotate(-1.2deg);
+  }
 }
 @keyframes pip-comfort-duck {
-  0%, 100% { transform: translateY(0) rotate(-1deg); }
-  22% { transform: translateY(5px) rotate(2.6deg); }
-  38% { transform: translateY(-2px) rotate(-2deg); }
-  54% { transform: translateY(4px) rotate(2deg); }
-  72% { transform: translateY(-1px) rotate(-2.4deg); }
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  22% {
+    transform: translateY(5px) rotate(2.6deg);
+  }
+  38% {
+    transform: translateY(-2px) rotate(-2deg);
+  }
+  54% {
+    transform: translateY(4px) rotate(2deg);
+  }
+  72% {
+    transform: translateY(-1px) rotate(-2.4deg);
+  }
 }
 @keyframes pip-comfort-blink {
   /* 6.4 s period: the blink falls at ~1.8 s, just after the second nod, then not again for 6.4 s */
-  0%, 24%, 33%, 100% { transform: scaleY(1); }
-  28.5% { transform: scaleY(0.08); }
+  0%,
+  24%,
+  33%,
+  100% {
+    transform: scaleY(1);
+  }
+  28.5% {
+    transform: scaleY(0.08);
+  }
 }
 @keyframes pip-comfort-glint-in {
-  from { opacity: 0; transform: scale(0.35); }
-  to { opacity: 0.85; transform: scale(0.72); }
+  from {
+    opacity: 0;
+    transform: scale(0.35);
+  }
+  to {
+    opacity: 0.85;
+    transform: scale(0.72);
+  }
 }
 @keyframes pip-comfort-glint {
-  from { opacity: 0.85; transform: scale(0.72); }
-  to { opacity: 0.55; transform: scale(0.78); }
+  from {
+    opacity: 0.85;
+    transform: scale(0.72);
+  }
+  to {
+    opacity: 0.55;
+    transform: scale(0.78);
+  }
 }
 
 /* ---------- lite (small sizes): keep blink, drop ambient loops ---------- */
-.pip[data-detail='lite'] :is(.pip-breath, .pip-head-loop, .pip-wing-l-loop, .pip-wing-r-loop, .pip-strap-loop, .pip-duck-loop, .pip-glance) {
+.pip[data-detail="lite"]
+  :is(
+    .pip-breath,
+    .pip-head-loop,
+    .pip-wing-l-loop,
+    .pip-wing-r-loop,
+    .pip-strap-loop,
+    .pip-duck-loop,
+    .pip-glance
+  ) {
   animation: none;
 }
 
 /* ---------- frozen / reduced motion: poses stay, motion goes ---------- */
-.pip[data-animate='false'],
-.pip[data-animate='false'] *,
+.pip[data-animate="false"],
+.pip[data-animate="false"] *,
 .pip--reduced,
 .pip--reduced * {
   animation: none !important;
@@ -339,11 +704,25 @@
 }
 
 /* ---------- debug: hide layers ---------- */
-.pip[data-hide~='head'] .pip-head { display: none; }
-.pip[data-hide~='eyes'] .pip-eyes { display: none; }
-.pip[data-hide~='beak'] .pip-beak,
-.pip[data-hide~='mouth'] .pip-mouth { display: none; }
-.pip[data-hide~='body'] .pip-body { display: none; }
-.pip[data-hide~='wings'] .pip-wings { display: none; }
-.pip[data-hide~='feet'] .pip-feet { display: none; }
-.pip[data-hide~='duck'] .pip-strap-pose { display: none; }
+.pip[data-hide~="head"] .pip-head {
+  display: none;
+}
+.pip[data-hide~="eyes"] .pip-eyes {
+  display: none;
+}
+.pip[data-hide~="beak"] .pip-beak,
+.pip[data-hide~="mouth"] .pip-mouth {
+  display: none;
+}
+.pip[data-hide~="body"] .pip-body {
+  display: none;
+}
+.pip[data-hide~="wings"] .pip-wings {
+  display: none;
+}
+.pip[data-hide~="feet"] .pip-feet {
+  display: none;
+}
+.pip[data-hide~="duck"] .pip-strap-pose {
+  display: none;
+}

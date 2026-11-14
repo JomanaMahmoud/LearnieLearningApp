@@ -10,10 +10,12 @@ import { Progress } from './screens/Progress'
 import { Achievements } from './screens/Achievements'
 import { Notifications } from './screens/Notifications'
 import { Settings } from './screens/Settings'
+import { TeacherApp } from './teacher/TeacherApp'
 
 function Screens() {
   const { route, user } = useStore()
   if (!user) return <Login />
+  if (user.role === 'teacher') return <TeacherApp />
   const screen = {
     home: <Home />,
     upload: <Upload />,

@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Patrick+Hand&display=swap');
-@import 'tailwindcss';
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Patrick+Hand&display=swap");
+@import "tailwindcss";
 
 @theme {
-  --font-sans: 'Nunito', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Fredoka', 'Nunito', ui-sans-serif, sans-serif;
-  --font-hand: 'Patrick Hand', 'Comic Sans MS', cursive;
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fredoka", "Nunito", ui-sans-serif, sans-serif;
+  --font-hand: "Patrick Hand", "Comic Sans MS", cursive;
 
   --color-ink: #24304d;
   --color-ink-soft: #5b6685;
@@ -53,25 +53,57 @@
 }
 
 @keyframes bob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 @keyframes pop {
-  0% { transform: scale(0.6); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-8px); }
-  40%, 80% { transform: translateX(8px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-8px);
+  }
+  40%,
+  80% {
+    transform: translateX(8px);
+  }
 }
 @keyframes rise {
-  0% { transform: translateY(10px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 @keyframes confetti-fall {
-  0% { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 1; }
-  100% { transform: translate3d(var(--dx), 105vh, 0) rotate(720deg); opacity: 0.9; }
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--dx), 105vh, 0) rotate(720deg);
+    opacity: 0.9;
+  }
 }
 
 @layer base {
@@ -87,7 +119,10 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-family: var(--font-display);
     font-weight: 600;
     letter-spacing: -0.01em;
@@ -103,10 +138,24 @@
     outline-offset: 3px;
     border-radius: 12px;
   }
+  .teacher-input {
+    min-height: 2.75rem;
+    width: 100%;
+    border: 1px solid #cfd7e4;
+    border-radius: 0.75rem;
+    padding: 0 0.75rem;
+    outline: none;
+  }
+  .teacher-input:focus {
+    border-color: var(--color-sky-400);
+    box-shadow: 0 0 0 3px var(--color-sky-100);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
